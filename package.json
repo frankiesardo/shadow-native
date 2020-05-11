@@ -1,0 +1,39 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "watch": "shadow-cljs watch",
+    "start": "expo start",
+    "web": "expo start --web",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "expo": "^35.0.0",
+    "jest": "^24.9.0",
+    "react": "16.9.0",
+    "react-dom": "16.9.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
+    "react-native-paper": "^3.10.1",
+    "react-native-web": "^0.11.5",
+    "react-test-renderer": "16.9.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.0.0",
+    "expo-cli": "^3.20.3",
+    "jest-expo": "^35.0.0",
+    "shadow-cljs": "2.8.59"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/.shadow-cljs/"
+    ],
+    "testMatch": [
+      "**/out/test/**/*_test.js"
+    ],
+    "snapshotResolver": "<rootDir>/src/test/snapshotResolver.js"
+  },
+  "private": true
+}

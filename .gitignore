@@ -1,0 +1,14 @@
+node_modules/**/*
+.expo
+/web-build
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+.shadow-cljs/
+.nrepl-port
+pom.xml
+.idea/
+*.iml
+out/

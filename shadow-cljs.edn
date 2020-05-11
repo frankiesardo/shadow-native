@@ -1,0 +1,20 @@
+{:source-paths
+ ["src/dev"
+  "src/main"
+  "src/test"]
+
+ :dependencies
+ []
+
+ :nrepl {:port 9000}
+
+ :builds
+ {:app
+  {:target :react-native
+   :init-fn example.app/init
+   :output-dir "out/app"
+   :devtools {:autoload true
+              :preloads [shadow.expo.keep-awake]}}
+  :test
+  {:target    :npm-module
+   :output-dir "out/test"}}}
