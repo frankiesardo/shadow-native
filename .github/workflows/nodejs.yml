@@ -19,4 +19,4 @@ jobs:
       with:
         node-version: '12'
     - run: npm install
-    - run: npm run shadow-cljs release app
+    - run: npx shadow-cljs release app
