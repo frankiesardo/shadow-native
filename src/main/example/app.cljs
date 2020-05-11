@@ -14,6 +14,8 @@
 
 (defonce splash-img (js/require "../../res/shadow-cljs.png"))
 
+(set! *warn-on-infer* true)
+
 (def styles ^js
   (-> {:container
        {:flex            1
@@ -28,8 +30,8 @@
       rn/StyleSheet.create))
 
 (defc Child [a]
-  ($ rn/View #js {:style styles.container}
-     ($ rn/Text #js {:style styles.title} a)
+  ($ rn/View #js {:style (.-container styles)}
+     ($ rn/Text #js {:style (.-title styles)} a)
      ($ p/Button #js {:onPress #(println ::clicked)} "Press me")
      ($ rn/Image #js {:source splash-img :style #js {:width 200 :height 200}})))
 
