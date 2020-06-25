@@ -1,17 +1,16 @@
 ```
-$ yarn
-$ shadow-cljs watch app
+$ npm run watch
 ;; wait for first compile to finish or expo gets confused
-$ yarn start
+$ npm run web
 
 ;; production build
-$ shadow-cljs release app
+$ npx shadow-cljs release app
 ;; no idea what to do for expo
 
 ;; testing with jest
-$ shadow-cljs watch test
+$ npx shadow-cljs watch test
 ;; on another terminal
-$ yarn jest
+$ npx yarn jest
 ```	```
 ```
 
