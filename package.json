@@ -1,7 +1,7 @@
 { "homepage": "/shadow-native/",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "watch": "shadow-cljs watch",
+    "watch": "shadow-cljs watch app",
     "start": "expo start",
     "web": "expo start --web",
     "android": "expo start --android",
