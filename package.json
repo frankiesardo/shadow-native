@@ -1,4 +1,5 @@
-{ "homepage": "/shadow-native/",
+{
+  "homepage": "/shadow-native/",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "watch": "shadow-cljs watch app",
@@ -16,7 +17,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-35.0.0.tar.gz",
     "react-native-paper": "^3.10.1",
     "react-native-web": "^0.11.5",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "use-reducer-with-effects": "^1.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0",

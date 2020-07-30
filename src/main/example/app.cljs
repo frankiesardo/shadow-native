@@ -5,6 +5,7 @@
     ["react" :as react :rename {createElement $}]
     ["react-native-paper" :as p]
     ["react-test-renderer" :as renderer]
+    ["use-reducer-with-effects" :refer [useReducerWithEffects]]
     [react.wrapper :refer-macros [defc]]
     [shadow.expo :as expo]))
 
@@ -16,51 +17,32 @@
 
 (set! *warn-on-infer* true)
 
-(defn useEffectiveReducer [reducer handlers initial-state]
-  (let [[state set-state] (react/useState initial-state)
-        [queue update-queue] (react/useReducer (fn [state action] (action state)) [])
-        dispatch (fn [action]
-                   (let [effect (reducer state action)]
-                     (when (and (contains? effect :state) (not= state (:state effect)))
-                       (set-state (:state effect)))
-                     (when-let [effect (not-empty (dissoc effect :state))]
-                       (update-queue #(conj % effect)))))]
-    (react/useEffect
-      (fn []
-        (println :Effect! queue)
-        (doseq [effect queue
-                [type payload] effect
-                :let [handler (get handlers type)]]
-          (when handler (handler dispatch payload)))
-        (update-queue (constantly []))
-        (fn []))
-      #js [queue])
-    [state dispatch]))
-
 (defmulti reducer (fn [state {:keys [type payload]}] type))
 
+(defn reducerWithEffects [state action] (reducer state action))
+
 (defmethod reducer ::login [state {{:keys [email password]} :payload :as action}]
-  {:state "Loading..."
-   :http {:url :login-url
-          :params (str email ":" password)
-          :callback ::login-cb}
-   :log action})
+  #js {:state "Loading..."
+       :http {:url :login-url
+              :params (str email ":" password)
+              :callback ::login-cb}
+       :log action})
 
 (defmethod reducer ::login-cb [state {{:keys [success body]} :payload :as action}]
-  {:state (if success
-            (str "Your name is " (get-in body [:profile :name]))
-            "Call to server failed")
-   :log action})
+  #js {:state (if success
+                (str "Your name is " (get-in body [:profile :name]))
+                "Call to server failed")
+       :log action})
 
 (defmethod reducer ::logout [state action]
-  {:state "Loading..."
-   :http {:url :logout-url
-          :callback ::logout-cb}
-   :log action})
+  #js {:state "Loading..."
+       :http {:url :logout-url
+              :callback ::logout-cb}
+       :log action})
 
 (defmethod reducer ::logout-cb [state {{:keys [success]} :payload :as action}]
-  {:state "Logged out"
-   :log action})
+  #js {:state "Logged out"
+       :log action})
 
 (defn http [dispatch {:keys [callback] :as payload}]
   (js/setTimeout
@@ -74,7 +56,7 @@
 (defn log [dispatch payload]
   (println payload))
 
-(def effect-handlers {:http http :log log})
+(def effect-handlers #js {:http http :log log})
 
 (def initial-state "Logged out")
 
@@ -92,7 +74,7 @@
                          :onPress #(dispatch {:type ::logout})}))))
 
 (defc App []
-  (let [[state dispatch] (useEffectiveReducer reducer effect-handlers initial-state)]
+  (let [[state dispatch] (useReducerWithEffects reducerWithEffects effect-handlers initial-state)]
     ($ DispatchContext.Provider #js {:value dispatch}
        ($ p/Provider nil (Navigator state)))))
 
